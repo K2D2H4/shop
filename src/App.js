@@ -8,12 +8,15 @@ import {
 } from "react-bootstrap";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import bg from "./img/bg.jpg";
+import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
+import Home from "./pages/Home";
+import Detail from "./pages/Detail";
 import data from "./data.js";
 import { useState } from "react";
 
 function App() {
   let [shoes, setShoes] = useState(data);
+  let navigate = useNavigate();
 
   return (
     <div className="App">
@@ -27,8 +30,17 @@ function App() {
               style={{ maxHeight: "100px" }}
               navbarScroll
             >
-              <Nav.Link href="#action1">Home</Nav.Link>
-              <Nav.Link href="#action2">cart</Nav.Link>
+              <Nav.Link href="#action1" onClick={() => navigate("/")}>
+                Home
+              </Nav.Link>
+              <Nav.Link
+                href="#action2"
+                onClick={() => {
+                  navigate("/deatil");
+                }}
+              >
+                cart
+              </Nav.Link>
               <NavDropdown title="Link" id="navbarScrollingDropdown">
                 <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
                 <NavDropdown.Item href="#action4">
@@ -56,55 +68,28 @@ function App() {
         </Container>
       </Navbar>
 
-      <div
-        className="main-bg"
-        style={{ backgroundImage: "url(" + bg + ")" }}
-      ></div>
+      {/* <Link to="/">Home</Link>
+      <Link to="/deatil">Detail</Link> */}
 
-      <div className="container">
-        <div className="row">
-          {
-            map((a, i) => <Item />)
-          }
-          {/* <div className="col-md-4">
-            <img
-              src="https://codingapple1.github.io/shop/shoes1.jpg"
-              width="80%"
-            />
-            <h4>{shoes[0].title}</h4>
-            <p>{shoes[0].price}</p>
-          </div>
-          <div className="col-md-4">
-            {" "}
-            <img
-              src="https://codingapple1.github.io/shop/shoes2.jpg"
-              width="80%"
-            />
-            <h4>{shoes[1].title}</h4>
-            <p>{shoes[1].price}</p>
-          </div>
-          <div className="col-md-4">
-            {" "}
-            <img
-              src="https://codingapple1.github.io/shop/shoes3.jpg"
-              width="80%"
-            />
-            <h4>{shoes[2].title}</h4>
-            <p>{shoes[2].price}</p>
-          </div> */}
-        </div>
-      </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
+        <Route path="/event" element={<About />}>
+          <Route path="event1" element={<div>첫 주문시 양배추즙 서비스</div>} />
+          <Route path="event2" element={<div>생일기념 쿠폰받기</div>} />
+        </Route>
+
+        <Route path="*" element={<div>없는 페이지</div>} />
+      </Routes>
     </div>
   );
 }
 
-function Item(prop) {
+function About() {
   return (
-    <div className="col-md-4">
-      {" "}
-      <img src=props.img width="80%" />
-      <h4>{shoes[2].title}</h4>
-      <p>{shoes[2].price}</p>
+    <div>
+      <h4>오늘의 이벤트</h4>
+      <Outlet></Outlet>
     </div>
   );
 }
