@@ -5,8 +5,7 @@ function Item(props) {
 
   return (
     <div className="col-md-4">
-      {/* <div onClick={() => navigate(`/detail/:${props.shoes.id}`)}> */}
-      <div onClick={() => navigate("/detail/:1")}>
+      <div onClick={() => navigate(`/detail/${props.shoes.id}`)}>
         <img src={props.shoes.img} width="80%" />
         <h4>{props.shoes.title}</h4>
         <p>{props.shoes.price}</p>
